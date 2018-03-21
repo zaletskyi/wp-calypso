@@ -18,7 +18,6 @@ import Notifications from './notifications';
 import Gravatar from 'components/gravatar';
 import config from 'config';
 import { preload } from 'sections-preload';
-import ResumeEditing from 'my-sites/resume-editing';
 import { getPrimarySiteId, isDomainOnlySite, isNotificationsOpen } from 'state/selectors';
 import { setNextLayoutFocus } from 'state/ui/layout-focus/actions';
 import { getSelectedSiteId } from 'state/ui/selectors';
@@ -107,7 +106,6 @@ class MasterbarLoggedIn extends React.Component {
 				>
 					{ translate( 'Reader', { comment: 'Toolbar, must be shorter than ~12 chars' } ) }
 				</Item>
-				{ config.isEnabled( 'resume-editing' ) && <ResumeEditing /> }
 				{ ! domainOnlySite && (
 					<Publish
 						user={ this.props.user }
@@ -153,12 +151,11 @@ export default connect(
 	state => {
 		// Falls back to using the user's primary site if no site has been selected
 		// by the user yet
-		const siteId = getSelectedSiteId( state ) || getPrimarySiteId( state );
 
 		return {
 			isNotificationsShowing: isNotificationsOpen( state ),
-			siteSlug: getSiteSlug( state, siteId ),
-			domainOnlySite: isDomainOnlySite( state, siteId ),
+			siteSlug: '',
+			domainOnlySite: false,
 		};
 	},
 	{ setNextLayoutFocus, recordTracksEvent }

@@ -23,7 +23,6 @@ import GlobalNotices from 'components/global-notices';
 import notices from 'notices';
 import translator from 'lib/translator-jumpstart';
 import TranslatorLauncher from './community-translator/launcher';
-import GuidedTours from 'layout/guided-tours';
 import config from 'config';
 import PulsingDot from 'components/pulsing-dot';
 import SitesListNotices from 'lib/sites-list/notices';
@@ -34,10 +33,8 @@ import QueryPreferences from 'components/data/query-preferences';
  * Internal dependencies
  */
 import PropTypes from 'prop-types';
-import QuerySites from 'components/data/query-sites';
 import { isOffline } from 'state/application/selectors';
 import { hasSidebar, masterbarIsVisible } from 'state/ui/selectors';
-import isHappychatOpen from 'state/happychat/selectors/is-happychat-open';
 import SitePreview from 'blocks/site-preview';
 import { getCurrentLayoutFocus } from 'state/ui/layout-focus/selectors';
 import DocumentHead from 'components/data/document-head';
@@ -115,10 +112,7 @@ const Layout = createReactClass( {
 			<div className={ sectionClass }>
 				<DocumentHead />
 				<SitesListNotices />
-				<QuerySites primaryAndRecent />
-				<QuerySites allSites />
 				<QueryPreferences />
-				{ <GuidedTours /> }
 				{ config.isEnabled( 'nps-survey/notice' ) && <NpsSurveyNotice /> }
 				{ config.isEnabled( 'keyboard-shortcuts' ) ? <KeyboardShortcutsMenu /> : null }
 				{ this.renderMasterbar() }
@@ -168,7 +162,7 @@ export default connect( state => {
 		hasSidebar: hasSidebar( state ),
 		isOffline: isOffline( state ),
 		currentLayoutFocus: getCurrentLayoutFocus( state ),
-		chatIsOpen: isHappychatOpen( state ),
+		chatIsOpen: false,
 		colorSchemePreference: getPreference( state, 'colorScheme' ),
 	};
 } )( Layout );
