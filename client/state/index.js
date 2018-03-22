@@ -17,15 +17,12 @@ import form from 'redux-form/es/reducer';
  */
 import { combineReducers } from 'state/utils';
 import navigationMiddleware from './navigation/middleware';
-import noticesMiddleware from './notices/middleware';
+import application from './application/reducer';
 import comments from './comments/reducer';
 import currentUser from './current-user/reducer';
 import documentHead from './document-head/reducer';
-import media from './media/reducer';
-import notices from './notices/reducer';
 import preferences from './preferences/reducer';
 import reader from './reader/reducer';
-import support from './support/reducer';
 import ui from './ui/reducer';
 import users from './users/reducer';
 import config from 'config';
@@ -35,16 +32,14 @@ import config from 'config';
  */
 
 const reducers = {
+	application,
 	comments,
 	currentUser,
 	documentHead,
 	form,
-	media,
-	notices,
 	preferences,
 	reader,
 	ui,
-	support,
 	users,
 };
 
@@ -75,8 +70,6 @@ export function createReduxStore( initialState = {} ) {
 		// responses. Therefore we need to inject the data layer
 		// as early as possible into the middleware chain.
 		require( './data-layer/wpcom-api-middleware.js' ).default,
-		noticesMiddleware,
-		isBrowser && require( './analytics/middleware.js' ).analyticsMiddleware,
 		isBrowser && require( './lib/middleware.js' ).default,
 		isBrowser &&
 			config.isEnabled( 'restore-last-location' ) &&
