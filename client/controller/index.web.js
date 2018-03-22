@@ -3,7 +3,6 @@
 /**
  * External dependencies
  */
-
 import React from 'react';
 import ReactDom from 'react-dom';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -12,8 +11,10 @@ import page from 'page';
 /**
  * Internal Dependencies
  */
+import config from 'config';
 import Layout from 'layout';
 import LayoutLoggedOut from 'layout/logged-out';
+import { login } from 'lib/paths';
 import { makeLayoutMiddleware } from './shared.js';
 import { getCurrentUser } from 'state/current-user/selectors';
 import userFactory from 'lib/user';
@@ -60,6 +61,22 @@ export function redirectLoggedIn( context, next ) {
 
 	if ( currentUser ) {
 		page.redirect( '/' );
+
+		return;
+	}
+
+	next();
+}
+
+export function redirectLoggedOut( context, next ) {
+	const currentUser = getCurrentUser( context.store.getState() );
+
+	if ( ! currentUser ) {
+		page.redirect( login( {
+			isNative: config.isEnabled( 'login/native-login-links' ),
+			redirectTo: context.path,
+		} ) );
+
 		return;
 	}
 
