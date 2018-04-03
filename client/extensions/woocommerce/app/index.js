@@ -31,13 +31,17 @@ import WooCommerceColophon from 'woocommerce/components/woocommerce-colophon';
 
 class App extends Component {
 	static propTypes = {
-		siteId: PropTypes.number,
+		allRequiredPluginsActive: PropTypes.bool,
 		canUserManageOptions: PropTypes.bool.isRequired,
 		children: PropTypes.element.isRequired,
 		documentTitle: PropTypes.string,
+		fetchSetupChoices: PropTypes.func.isRequired,
 		hasPendingAutomatedTransfer: PropTypes.bool.isRequired,
 		isAtomicSite: PropTypes.bool.isRequired,
 		isDashboard: PropTypes.bool.isRequired,
+		pluginsLoaded: PropTypes.bool.isRequired,
+		siteId: PropTypes.number,
+		translate: PropTypes.func.isRequired,
 	};
 
 	componentDidMount() {
@@ -128,10 +132,10 @@ class App extends Component {
 
 	render = () => {
 		const {
-			siteId,
 			canUserManageOptions,
-			isAtomicSite,
 			hasPendingAutomatedTransfer,
+			isAtomicSite,
+			siteId,
 			translate,
 		} = this.props;
 		if ( ! siteId ) {
@@ -178,13 +182,13 @@ function mapStateToProps( state ) {
 	const isSetupComplete = isStoreSetupComplete( state, siteId );
 
 	return {
-		siteId,
 		allRequiredPluginsActive,
 		canUserManageOptions: siteId ? canUserManageOptions : false,
 		isAtomicSite: siteId ? isAtomicSite : false,
 		isSetupComplete,
 		hasPendingAutomatedTransfer: siteId ? hasPendingAutomatedTransfer : false,
 		pluginsLoaded,
+		siteId,
 	};
 }
 
