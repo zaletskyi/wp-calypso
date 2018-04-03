@@ -12,7 +12,6 @@ import { translate } from 'i18n-calypso';
 /**
  * Internal dependencies
  */
-import analytics from 'lib/analytics';
 import App from './app';
 import Dashboard from './app/dashboard';
 import EmptyContent from 'components/empty-content';
@@ -196,12 +195,6 @@ function addStorePage( storePage, storeNavigation ) {
 		storeNavigation,
 		( context, next ) => {
 			const component = React.createElement( storePage.container, { params: context.params } );
-			const appProps = {
-				isDashboard: '/store/:site' === storePage.path,
-			};
-			if ( storePage.documentTitle ) {
-				appProps.documentTitle = storePage.documentTitle;
-			}
 
 			let analyticsPath = storePage.path;
 			const { filter } = context.params;
@@ -209,14 +202,21 @@ function addStorePage( storePage, storeNavigation ) {
 				analyticsPath = analyticsPath.replace( ':filter', filter );
 			}
 
-			let analyticsPageTitle = 'Store';
+			let analyticsTitle = 'Store';
 			if ( storePage.documentTitle ) {
-				analyticsPageTitle += ` > ${ storePage.documentTitle }`;
+				analyticsTitle += ` > ${ storePage.documentTitle }`;
 			} else {
-				analyticsPageTitle += ' > Dashboard';
+				analyticsTitle += ' > Dashboard';
 			}
 
-			analytics.pageView.record( analyticsPath, analyticsPageTitle );
+			const appProps = {
+				analyticsPath,
+				analyticsTitle,
+				isDashboard: '/store/:site' === storePage.path,
+			};
+			if ( storePage.documentTitle ) {
+				appProps.documentTitle = storePage.documentTitle;
+			}
 
 			context.primary = React.createElement( App, appProps, component );
 			next();
