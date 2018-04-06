@@ -407,17 +407,20 @@ class RegisterDomainStep extends React.Component {
 	};
 
 	repeatSearch = ( stateOverride = {}, { shouldQuerySubdomains = true } = {} ) => {
+		const { lastQuery } = this.state;
+		const loadingResults = Boolean( getFixedDomainSearch( lastQuery ) );
+
 		const nextState = {
 			exactMatchDomain: null,
 			lastDomainSearched: null,
-			loadingResults: true,
-			loadingSubdomainResults: true,
+			loadingResults,
+			loadingSubdomainResults: loadingResults,
 			notice: null,
 			...stateOverride,
 		};
 		debug( 'Repeating a search with the following input for setState', nextState );
 		this.setState( nextState, () => {
-			this.onSearch( this.state.lastQuery, { shouldQuerySubdomains } );
+			loadingResults && this.onSearch( lastQuery, { shouldQuerySubdomains } );
 		} );
 	};
 
@@ -442,7 +445,10 @@ class RegisterDomainStep extends React.Component {
 			{
 				filters: this.getInitialFiltersState(),
 			},
-			this.repeatSearch
+			() => {
+				this.save();
+				this.repeatSearch();
+			}
 		);
 	};
 
@@ -468,6 +474,7 @@ class RegisterDomainStep extends React.Component {
 				pageNumber: 1,
 				searchResults: null,
 				subdomainSearchResults: null,
+				...( loadingResults ? { filters: this.getInitialFiltersState() } : {} ),
 			},
 			callback
 		);
