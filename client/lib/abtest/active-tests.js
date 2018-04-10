@@ -89,4 +89,12 @@ export default {
 		defaultVariation: 'original',
 		allowExistingUsers: true,
 	},
+	showMoneyBackGuarantee: {
+		datestamp: '20180409',
+		variations: {
+			no: 1,
+			yes: 1,
+		},
+		defaultVariation: 'no',
+	},
 };
