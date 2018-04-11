@@ -3,7 +3,6 @@
 /**
  * External dependencies
  */
-
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { pick, noop } from 'lodash';
@@ -11,8 +10,8 @@ import { pick, noop } from 'lodash';
 /**
  * Internal dependencies
  */
-
 import MoreFiltersControl from './more-filters';
+import TldFilterControl from './tld-filter';
 
 export default class SearchFilters extends Component {
 	static propTypes = {
@@ -20,6 +19,7 @@ export default class SearchFilters extends Component {
 			includeDashes: PropTypes.bool,
 			maxCharacters: PropTypes.string,
 			showExactMatchesOnly: PropTypes.bool,
+			tlds: PropTypes.arrayOf( PropTypes.string ),
 		} ).isRequired,
 		onChange: PropTypes.func,
 		onFiltersReset: PropTypes.func,
@@ -48,8 +48,12 @@ export default class SearchFilters extends Component {
 						'includeDashes',
 						'maxCharacters',
 						'showExactMatchesOnly',
-						'onFiltersReset',
 					] ) }
+					onChange={ this.updateFilterValues }
+					{ ...pick( this.props, [ 'onFiltersReset', 'onFiltersSubmit' ] ) }
+				/>
+				<TldFilterControl
+					{ ...pick( this.props.filters, [ 'tlds' ] ) }
 					onChange={ this.updateFilterValues }
 					{ ...pick( this.props, [ 'onFiltersReset', 'onFiltersSubmit' ] ) }
 				/>
