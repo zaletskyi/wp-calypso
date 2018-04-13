@@ -39,6 +39,14 @@ function getCommonHandlers( {
 export default function() {
 	SiftScience.recordUser();
 
+	// These redirects are work-around in response to an issue where navigating back after a
+	// successful site address change shows a continuous placeholder state...
+	// The true issue seems to be that we wrongly redirect to '/domains/manage/edit/:site'
+	// at some point, which I wasn't able to track down.
+	// TODO: find and fix the actual cause, then remove these redirects.
+	page.redirect( '/domains/manage/edit', paths.domainManagementRoot() );
+	page.redirect( '/domains/manage/edit/:site', paths.domainManagementRoot() );
+
 	page( paths.domainManagementEmail(), siteSelection, sites, makeLayout, clientRender );
 
 	registerMultiPage( {
