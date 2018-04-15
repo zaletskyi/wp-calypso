@@ -21,7 +21,7 @@ class CartInstallments extends React.Component {
 	constructor( props ) {
 		super( props );
 		const installments = props.cart.installments,
-			cartHadInstallmentsBeforeMount = Boolean( props.cart.installments ); //TODO: check this
+			cartHadInstallmentsBeforeMount = props.cart.installments > 1;
 
 		this.state = {
 			isInstallmentsFormShowing: cartHadInstallmentsBeforeMount,
@@ -56,7 +56,10 @@ class CartInstallments extends React.Component {
 	};
 
 	getInstallmentsForm = () => {
-		if ( ! this.state.isInstallmentsFormShowing ) {
+		if (
+			! this.state.isInstallmentsFormShowing ||
+			this.props.cart.installments_plans.length === 0
+		) {
 			return;
 		}
 
