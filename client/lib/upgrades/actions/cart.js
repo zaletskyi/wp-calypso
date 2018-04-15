@@ -108,3 +108,10 @@ export function applyCoupon( coupon ) {
 		coupon,
 	} );
 }
+
+export function applyInstallments( installments ) {
+	Dispatcher.handleViewAction( {
+		type: ActionTypes.CART_INSTALLMENTS_APPLY,
+		installments,
+	} );
+}

@@ -86,6 +86,7 @@ class SecondaryCart extends Component {
 					cart={ cart }
 					selectedSite={ selectedSite }
 					showCoupon={ true }
+					showInstallments={ true }
 				/>
 				<CartPlanDiscountAd cart={ cart } selectedSite={ selectedSite } />
 			</Sidebar>
