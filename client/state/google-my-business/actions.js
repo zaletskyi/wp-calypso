@@ -7,6 +7,7 @@ import {
 	GOOGLE_MY_BUSINESS_CONNECT_LOCATION,
 	GOOGLE_MY_BUSINESS_DISCONNECT_LOCATION,
 	GOOGLE_MY_BUSINESS_STATS_SEARCH_REQUEST,
+	GOOGLE_MY_BUSINESS_STATS_SEARCH_SET_DATA,
 } from 'state/action-types';
 import { saveSiteSettings } from 'state/site-settings/actions';
 
@@ -62,6 +63,10 @@ export const disconnectGoogleMyBusinessLocation = siteId => dispatch => {
 
 export const requestGoogleMyBusinessStatsSearch = ( siteId, timeSpan = 'week' ) => ( {
 	type: GOOGLE_MY_BUSINESS_STATS_SEARCH_REQUEST,
+	timeSpan,
 } );
 
-export const receiveGoogleMyBusinessStatsSearch = data => ( {} );
+export const receiveGoogleMyBusinessStatsSearch = data => ( {
+	type: GOOGLE_MY_BUSINESS_STATS_SEARCH_SET_DATA,
+	data,
+} );
